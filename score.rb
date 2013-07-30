@@ -1,4 +1,3 @@
-
 def validate_low0_high10(rollpoint_array, frame)
      if rollpoint_array[frame] < 0 or rollpoint_array[frame] > 10
        print "Error!!! A number should be inputed between 0 and 10. point is 0.\n"
@@ -54,7 +53,7 @@ class Score
   end
 
 
-
+isosiosiso
 
 
 
