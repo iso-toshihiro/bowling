@@ -24,17 +24,30 @@ def validate_strike(rollpoint_array, frame)
       end
 end
 
+def validate_spare(first_rollpoint_array, second_rollpoint_array, frame)
+    if second_rollpoint_array[frame] + first_rollpoint_array[frame] == 10 and first_rollpoint_array[frame] != 10
+      print "spare!!!!\n"
+      wait_key = gets.chomp
+    end
+end
+
 class Score
+
 
   attr_accessor :firstpoint
   attr_accessor :secondpoint
   attr_accessor :display_totalscore
+  attr_accessor :display_firstpoint
+  attr_accessor :display_secondpoint
 
   def initialize
     @firstpoint = Array.new(12)
     @secondpoint = Array.new(11)
     @display_totalscore = Array.new(10)
+    @display_firstpoint = Array.new(11) #[2,0,3,10,6,4,3,7,0,6,10]
+    @display_secondpoint =  Array.new(11)#[0,1,7,0,4,4,7,7,0,4,3]
     @turn = 0
+    @totalscore = 0
    # @firstpoint = [0,0,0,0,0,0,0,0,0,0,0]
    # @secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
   end
@@ -52,10 +65,9 @@ class Score
 
     validate_gutter(second_rollpoint_array, frame)
     
-    if second_rollpoint_array[frame] + first_rollpoint_array[frame] == 10
-      print "spare!!!!\n"
-      wait_key = gets.chomp
-    elsif second_rollpoint_array[frame] + first_rollpoint_array[frame] > 10
+    validate_spare(first_rollpoint_array, second_rollpoint_array, frame)
+
+    if second_rollpoint_array[frame] + first_rollpoint_array[frame] > 10 
       print "Error!!! over 10 points. input 0.\n"
       second_rollpoint_array[frame] = 0
       wait_key = gets.chomp
@@ -111,75 +123,94 @@ class Score
     end #for_end
 
     self.case_10frame_strike(@firstpoint, @secondpoint)
-
     self.case_10frame_spare(@firstpoint, @secondpoint)
-
   end
 
+  def cal_case_strike(frame)
+    if  @firstpoint[frame] == 10
+      @display_firstpoint[frame] = "X"
+      @display_secondpoint[frame] = " "
+      if  @firstpoint[frame+1] == nil
+        @display_totalscore[frame] = " "
+        
+      elsif @firstpoint[frame+1] == 10 and @firstpoint[frame+2] == nil
+        @display_totalscore[frame] = " "
+      elsif  @firstpoint[frame+1] == 10 and @firstpoint[frame+2] != nil
+        @display_totalscore[frame] = @totalscore + 20 + @firstpoint[frame+2]
+        @totalscore += 20 + @firstpoint[frame+2]
+      else
+        @display_totalscore[frame] = @totalscore + 10 + @firstpoint[frame+1] + @secondpoint[frame+1]
+        @totalscore += 10 + @firstpoint[frame+1] + @secondpoint[frame+1]
+      end
+    else
+      return false
+    end
+  end
+
+  def cal_case_spare(frame)
+     if  @firstpoint[frame] + @secondpoint[frame] == 10  and @firstpoint[frame] != 10
+        @display_firstpoint[frame] = @firstpoint[frame]
+        @display_secondpoint[frame] = "/"
+        if  @firstpoint[frame+1] == nil
+          @display_totalscore[frame] = " "
+        else
+          @display_totalscore[frame] = @totalscore + 10 + @firstpoint[frame+1]
+          @totalscore += 10 + @firstpoint[frame+1]
+          print frame,"  ", @totalscore," spare,OK\n"
+        end
+     else
+       return false
+     end
+  end
+  def cal_case_10frame_strike
+    if @firstpoint[9] == 10 
+      if @firstpoint[10] == 10
+        @display_firstpoint[10] = "X"
+      else
+        @display_firstpoint[10] =  @firstpoint[10]
+        @display_secondpoint[10] =  @secondpoint[10]
+      end
+      if @firstpoint[11] == 10
+        @display_firstpoint[11] = "X"
+      else
+        @display_firstpoint[11] =  @firstpoint[11]
+      end
+    else
+      return false
+    end
+  end
+  
+  def cal_case_10frame_spare
+    if  @firstpoint[9] + @secondpoint[9] == 10 and  @firstpoint[9] != 10
+      if  @firstpoint[10] == 10
+        @display_firstpoint[10] = "X"
+      else
+        @display_firstpoint[10] =  @firstpoint[10]
+      end
+    end
+  end
 
   def calcuration(frame)
     
-    @display_firstpoint = [2,0,3,10,6,4,3,7,0,6,10]
-    @display_secondpoint = [0,1,7,0,4,4,7,7,0,4,3]
+    #@display_firstpoint = [2,0,3,10,6,4,3,7,0,6,10]
+    #@display_secondpoint = [0,1,7,0,4,4,7,7,0,4,3]
     #@display_totalscore = [3,1,7,0,4,4,7,7,0,4,3]
-    totalscore = 0
+    @totalscore = 0
     
-    if frame == 9
-      if @firstpoint[9] == 10 
-        if @firstpoint[10] == 10
-          @display_firstpoint[10] = "X"
-        else
-          @display_firstpoint[10] =  @firstpoint[10]
-          @display_secondpoint[10] =  @secondpoint[10]
-        end
-        if @firstpoint[11] == 10
-          @display_firstpoint[11] = "X"
-        else
-          @display_firstpoint[11] =  @firstpoint[11]
-        end
-      elsif  @firstpoint[9] + @secondpoint[9] == 10 
-        if  @firstpoint[10] == 10
-          @display_firstpoint[10] = "X"
-        else
-          @display_firstpoint[10] =  @firstpoint[10]
-        end
-      end
+    if frame == 9  
+      cal_case_10frame_strike
+      cal_case_10frame_spare
     end
 
     for i in 0..frame
-      if  @firstpoint[i] == 10
-        @display_firstpoint[i] = "X"
-        @display_secondpoint[i] = " "
-        if  @firstpoint[i+1] == nil
-          @display_totalscore[i] = " "
-          
-        elsif @firstpoint[i+1] == 10 and @firstpoint[i+2] == nil
-          @display_totalscore[i] = " "
-        elsif  @firstpoint[i+1] == 10
-          @display_totalscore[i] = totalscore + 20 + @firstpoint[i+2]
-          totalscore += 20 + @firstpoint[i+2]
-        else
-          @display_totalscore[i] = totalscore + 10 + @firstpoint[i+1] + @secondpoint[i+1]
-          totalscore += 10 + @firstpoint[i+1] + @secondpoint[i+1]
-        end
-      elsif  @firstpoint[i] + @secondpoint[i] == 10
-        @display_firstpoint[i] = @firstpoint[i]
-        @display_secondpoint[i] = "/"
-        if  @firstpoint[i+1] == nil
-          @display_totalscore[i] = " "
-        else
-          @display_totalscore[i] = totalscore + 10 + @firstpoint[i+1]
-          totalscore += 10 + @firstpoint[i+1]
-        end
-      else
 
+      if cal_case_strike(i) == false and cal_case_spare(i) == false
+        print i,"  ", @totalscore," OK\n"
         @display_firstpoint[i] = @firstpoint[i]
         @display_secondpoint[i] =  @secondpoint[i]
-        @display_totalscore[i] = totalscore + @firstpoint[i] + @secondpoint[i]
-        totalscore += @firstpoint[i] + @secondpoint[i]
+        @display_totalscore[i] = @totalscore + @firstpoint[i] + @secondpoint[i]
+        @totalscore += @firstpoint[i] + @secondpoint[i]
       end
-
-      #totalscore += @firstpoint[i] + @secondpoint[i]
     end #for end
   end
 
@@ -314,9 +345,9 @@ end # class end
 
 bob = Score.new
 
-#bob.input
+bob.input
 #bob.firstpoint = [10,10,10,10,10,10,10,10,10,10,10,10,10]
 #bob.secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
-#bob.calcuration(9)
+bob.calcuration(9)
 #print bob.display_totalscore[9]
-#bob.display2(9)
+bob.display2(9)
