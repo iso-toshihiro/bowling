@@ -31,9 +31,6 @@ class Score
     @turn = 0
    # @firstpoint = [0,0,0,0,0,0,0,0,0,0,0]
    # @secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
-    @firstpoint[10] = 0
-    @firstpoint[11] = 0
-    @secondpoint[10] = 0
 
 
   end
@@ -105,8 +102,9 @@ class Score
       else
         self.second_roll(@firstpoint, @secondpoint, i)
       end
-
-      self.display(i)
+      self.calcuration(i)
+      self.display2(i)
+      #self.display(i)
       
     end #for_end
 
@@ -125,11 +123,28 @@ class Score
     totalscore = 0
     
     if frame == 9
-      
+      if @firstpoint[9] == 10 
+        if @firstpoint[10] == 10
+          @display_firstpoint[10] = "X"
+        else
+          @display_firstpoint[10] =  @firstpoint[10]
+          @display_secondpoint[10] =  @secondpoint[10]
+        end
+        if @firstpoint[11] == 10
+          @display_firstpoint[11] = "X"
+        else
+          @display_firstpoint[11] =  @firstpoint[11]
+        end
+      elsif  @firstpoint[9] + @secondpoint[9] == 10 
+        if  @firstpoint[10] == 10
+          @display_firstpoint[10] = "X"
+        else
+          @display_firstpoint[10] =  @firstpoint[10]
+        end
+      end
+    end
 
-
-
-    for i 0..frame
+    for i in 0..frame
       if  @firstpoint[i] == 10
         @display_firstpoint[i] = "X"
         @display_secondpoint[i] = " "
@@ -140,8 +155,10 @@ class Score
           @display_totalscore[i] = " "
         elsif  @firstpoint[i+1] == 10
           @display_totalscore[i] = totalscore + 20 + @firstpoint[i+2]
+          totalscore += 20 + @firstpoint[i+2]
         else
           @display_totalscore[i] = totalscore + 10 + @firstpoint[i+1] + @secondpoint[i+1]
+          totalscore += 10 + @firstpoint[i+1] + @secondpoint[i+1]
         end
       elsif  @firstpoint[i] + @secondpoint[i] == 10
         @display_firstpoint[i] = @firstpoint[i]
@@ -150,30 +167,33 @@ class Score
           @display_totalscore[i] = " "
         else
           @display_totalscore[i] = totalscore + 10 + @firstpoint[i+1]
+          totalscore += 10 + @firstpoint[i+1]
         end
       else
 
         @display_firstpoint[i] = @firstpoint[i]
         @display_secondpoint[i] =  @secondpoint[i]
         @display_totalscore[i] = totalscore + @firstpoint[i] + @secondpoint[i]
-
+        totalscore += @firstpoint[i] + @secondpoint[i]
       end
-
-    end
+      print @firstpoint[i],"  ",  @secondpoint[i],"  ",totalscore, "\n"
+      #totalscore += @firstpoint[i] + @secondpoint[i]
+      print "after  ",  @secondpoint[i],"  ",totalscore, "\n"
+    end #for end
   end
 
   def display2(frame) 
     for i in 0..frame
       
       if i == 9 
-        if @firstpoint[9] == 10 and @firstpoint[10] == 10 and  @firstpoint[11] == 10
-          print "   ", @display_firstpoint[i], "  ", @display_secondpoint[i], " X|"
-        elsif @firstpoint[i] == 10
-          print "   ", tmpfp, "  ", lfp, " ", lsp, "|"
-        elsif @firstpoint[i] + @secondpoint[i] == 10
-          print "   ", tmpfp, " ", tmpsp, "  ", lfp, "|"
+        if @firstpoint[9] == 10 and @firstpoint[10] == 10
+          print "   ", @display_firstpoint[i], "  ", @display_firstpoint[i+1], " ", @display_firstpoint[i+2], "|"
+        elsif  @firstpoint[9] == 10
+          print "   ", @display_firstpoint[i], "  ", @display_firstpoint[i+1], " ", @display_secondpoint[i+1], "|"
+        elsif @firstpoint[9] +  @secondpoint[9] == 10
+          print "   ", @display_firstpoint[i], "  ", @display_secondpoint[i], " ", @display_firstpoint[i+1], "|"
         else
-          print "   ", tmpfp, " ", tmpsp, "|"
+          print "   ", @display_firstpoint[i], " ", @display_secondpoint[i], "|"
         end
       else
         print "   ", @display_firstpoint[i], " ", @display_secondpoint[i], "|"
@@ -186,30 +206,30 @@ class Score
   
       
       if i == 9 
-        if @firstpoint[i] + @secondpoint[i] == 10
-          print "   ", "%6d" % total , "|"
+        if  @firstpoint[9] +  @secondpoint[9] == 10
+          if  @display_totalscore[9] == " "
+            print "    ", "%3s" % @display_totalscore[i], "|"
+          else
+            print "      ", "%3d" % @display_totalscore[i], "|"
+          end
         else
-          print "   ", "%3d" % total , "|"
+          print "   ", "%3d" % @display_totalscore[i], "|"
         end
-
       else
-        if i == frame-1 and @firstpoint[frame-1]==10 and  @firstpoint[frame]==10
-          print "      |"
- 
-        elsif i == frame and  @firstpoint[i] + @secondpoint[i] == 10
-          print "      |"
+        if  @display_totalscore[i] == " "
+          print "   ", "%3s" % @display_totalscore[i], "|"
         else
-          print "   ", "%3d" % total , "|"
+          print "   ", "%3d" % @display_totalscore[i], "|"
         end
       end
-    end
+    end #for end
     
     print "\n"
     print " X : strike\n / : spare\n"
 
-
-
   end
+
+
   def display(frame)  #display score
 
     #@firstpoint = [2,0,3,10,6,4,3,7,0,6,10]
@@ -260,6 +280,7 @@ class Score
     end
     print "\n"
 
+
     
     for i in 0..frame
       total = total + @firstpoint[i] + @secondpoint[i] + bonus[i]
@@ -293,4 +314,5 @@ end # class end
 bob = Score.new
 
 bob.input
-bob.display(9)
+bob.calcuration(9)
+bob.display2(9)
