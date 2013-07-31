@@ -9,7 +9,7 @@ end
 def validate_gutter(rollpoint_array, frame)
       if rollpoint_array[frame] == 0
         print "Gutter!!!\n"
-        wait_key = gets.chomp
+        #wait_key = gets.chomp
       end
 end
 
@@ -25,17 +25,19 @@ def validate_strike(rollpoint_array, frame)
 end
 
 class Score
+
+  attr_accessor :firstpoint
+  attr_accessor :secondpoint
+  attr_accessor :display_totalscore
+
   def initialize
     @firstpoint = Array.new(12)
     @secondpoint = Array.new(11)
+    @display_totalscore = Array.new(10)
     @turn = 0
    # @firstpoint = [0,0,0,0,0,0,0,0,0,0,0]
    # @secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
-
-
   end
-  attr_accessor :firstpoint
-  attr_accessor :secondpoint
 
   def first_roll(first_rollpoint_array, frame)
       print "Input a number of first point of ", frame+1, " frame between 0 and 10.  \n"
@@ -119,7 +121,7 @@ class Score
     
     @display_firstpoint = [2,0,3,10,6,4,3,7,0,6,10]
     @display_secondpoint = [0,1,7,0,4,4,7,7,0,4,3]
-    @display_totalscore = [0,1,7,0,4,4,7,7,0,4,3]
+    #@display_totalscore = [3,1,7,0,4,4,7,7,0,4,3]
     totalscore = 0
     
     if frame == 9
@@ -176,9 +178,8 @@ class Score
         @display_totalscore[i] = totalscore + @firstpoint[i] + @secondpoint[i]
         totalscore += @firstpoint[i] + @secondpoint[i]
       end
-      print @firstpoint[i],"  ",  @secondpoint[i],"  ",totalscore, "\n"
+
       #totalscore += @firstpoint[i] + @secondpoint[i]
-      print "after  ",  @secondpoint[i],"  ",totalscore, "\n"
     end #for end
   end
 
@@ -313,6 +314,9 @@ end # class end
 
 bob = Score.new
 
-bob.input
-bob.calcuration(9)
-bob.display2(9)
+#bob.input
+#bob.firstpoint = [10,10,10,10,10,10,10,10,10,10,10,10,10]
+#bob.secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
+#bob.calcuration(9)
+#print bob.display_totalscore[9]
+#bob.display2(9)
