@@ -24,7 +24,7 @@ def strike(rollpoint_array, frame)
       end
 end
 
-def validate_spare(first_rollpoint_array, second_rollpoint_array, frame)
+def spare(first_rollpoint_array, second_rollpoint_array, frame)
     if second_rollpoint_array[frame] + first_rollpoint_array[frame] == 10 and first_rollpoint_array[frame] != 10
       print "spare!!!!\n"
       wait_key = gets.chomp
