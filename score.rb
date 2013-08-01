@@ -63,9 +63,9 @@ class Score
     
     second_rollpoints[frame] = gets.chomp.to_i
 
-    validate_gutter(second_rollpoints, frame)
+    gutter(second_rollpoints, frame)
     
-    validate_spare(first_rollpoints, second_rollpoints, frame)
+    spare(first_rollpoints, second_rollpoints, frame)
 
     if second_rollpoints[frame] + first_rollpoints[frame] > 10 
       print "Error!!! over 10 points. input 0.\n"
@@ -107,8 +107,8 @@ class Score
  
       first_roll(@firstpoint, i)
 
-      validate_gutter(@firstpoint, i)
-      validate_strike(@firstpoint, i)
+      gutter(@firstpoint, i)
+      strike(@firstpoint, i)
       validate_low0_high10( @firstpoint, i )
 
       if @firstpoint[i] == 10
