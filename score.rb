@@ -13,7 +13,7 @@ def gutter(rollpoint_array, frame)
       end
 end
 
-def validate_strike(rollpoint_array, frame)
+def strike(rollpoint_array, frame)
       if rollpoint_array[frame] == 10 and rollpoint_array[frame-1] == 10
           print "Double!!!!!!\n"
           wait_key = gets.chomp
