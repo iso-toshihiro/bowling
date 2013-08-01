@@ -1,31 +1,31 @@
-def validate_low0_high10(rollpoint_array, frame)
-     if rollpoint_array[frame] < 0 or rollpoint_array[frame] > 10
+def validate_low0_high10(rollpoints, frame)
+     if rollpoints[frame] < 0 or rollpoints[frame] > 10
        print "Error!!! A number should be inputed between 0 and 10. point is 0.\n"
-       rollpoint_array[frame] = 0
+       rollpoints[frame] = 0
        wait_key = gets.chomp
      end
 end
 
-def gutter(rollpoint_array, frame)
-      if rollpoint_array[frame] == 0
+def gutter(rollpoints, frame)
+      if rollpoints[frame] == 0
         print "Gutter!!!\n"
         #wait_key = gets.chomp
       end
 end
 
-def strike(rollpoint_array, frame)
-      if rollpoint_array[frame] == 10 and rollpoint_array[frame-1] == 10
+def strike(rollpoints, frame)
+      if rollpoints[frame] == 10 and rollpoints[frame-1] == 10
           print "Double!!!!!!\n"
           wait_key = gets.chomp
-      elsif rollpoint_array[frame] == 10
+      elsif rollpoints[frame] == 10
           print "Strike!!!!\n"
           wait_key = gets.chomp
       else
       end
 end
 
-def spare(first_rollpoint_array, second_rollpoint_array, frame)
-    if second_rollpoint_array[frame] + first_rollpoint_array[frame] == 10 and first_rollpoint_array[frame] != 10
+def spare(first_rollpoints, second_rollpoints, frame)
+    if second_rollpoints[frame] + first_rollpoints[frame] == 10 and first_rollpoints[frame] != 10
       print "spare!!!!\n"
       wait_key = gets.chomp
     end
@@ -52,51 +52,51 @@ class Score
    # @secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
   end
 
-  def first_roll(first_rollpoint_array, frame)
+  def first_roll(first_rollpoints, frame)
       print "Input a number of first point of ", frame+1, " frame between 0 and 10.  \n"
-      first_rollpoint_array[frame] = gets.chomp.to_i  
+      first_rollpoints[frame] = gets.chomp.to_i  
   end
 
 
-  def second_roll(first_rollpoint_array, second_rollpoint_array, frame)
-    print "Input a number of second point of ", frame+1, " frame between 0 and ", 10 - first_rollpoint_array[frame],".  \n"
+  def second_roll(first_rollpoints, second_rollpoints, frame)
+    print "Input a number of second point of ", frame+1, " frame between 0 and ", 10 - first_rollpoints[frame],".  \n"
     
-    second_rollpoint_array[frame] = gets.chomp.to_i
+    second_rollpoints[frame] = gets.chomp.to_i
 
-    validate_gutter(second_rollpoint_array, frame)
+    validate_gutter(second_rollpoints, frame)
     
-    validate_spare(first_rollpoint_array, second_rollpoint_array, frame)
+    validate_spare(first_rollpoints, second_rollpoints, frame)
 
-    if second_rollpoint_array[frame] + first_rollpoint_array[frame] > 10 
+    if second_rollpoints[frame] + first_rollpoints[frame] > 10 
       print "Error!!! over 10 points. input 0.\n"
-      second_rollpoint_array[frame] = 0
+      second_rollpoints[frame] = 0
       wait_key = gets.chomp
     end
-    validate_low0_high10( second_rollpoint_array, frame )
+    validate_low0_high10( second_rollpoints, frame )
   end
 
-  def case_10frame_strike(first_rollpoint_array, second_rollpoint_array)
-    if first_rollpoint_array[9] == 10
+  def case_10frame_strike(first_rollpoints, second_rollpoints)
+    if first_rollpoints[9] == 10
       print "Input a number of first roll point of last frame between 0 and 10.  \n"
-      first_rollpoint_array[10] = gets.chomp.to_i
-      validate_low0_high10( first_rollpoint_array, 10 )
-      if first_rollpoint_array[10] == 10
+      first_rollpoints[10] = gets.chomp.to_i
+      validate_low0_high10( first_rollpoints, 10 )
+      if first_rollpoints[10] == 10
         print "Input a number of second roll point of last frame between 0 and 10.  \n"
-        first_rollpoint_array[11] = gets.chomp.to_i
-        validate_low0_high10( first_rollpoint_array, 11 )
+        first_rollpoints[11] = gets.chomp.to_i
+        validate_low0_high10( first_rollpoints, 11 )
       else
         print "Input a number of second roll point of last frame between 0 and 10.  \n"
-        second_rollpoint_array[10] = gets.chomp.to_i
-        validate_low0_high10(second_rollpoint_array, 10)
+        second_rollpoints[10] = gets.chomp.to_i
+        validate_low0_high10(second_rollpoints, 10)
       end
     end
   end
 
-  def case_10frame_spare(first_rollpoint_array, second_rollpoint_array)
-    if first_rollpoint_array[9] + second_rollpoint_array[9] == 10 and  first_rollpoint_array[9] != 10
+  def case_10frame_spare(first_rollpoints, second_rollpoints)
+    if first_rollpoints[9] + second_rollpoints[9] == 10 and  first_rollpoints[9] != 10
       print "Input a number of last raoll point between 0 and 10.  \n"
-      first_rollpoint_array[10] = gets.chomp.to_i
-      validate_low0_high10(first_rollpoint_array, 10)
+      first_rollpoints[10] = gets.chomp.to_i
+      validate_low0_high10(first_rollpoints, 10)
     end
   end
 
