@@ -6,7 +6,7 @@ def validate_low0_high10(rollpoint_array, frame)
      end
 end
 
-def validate_gutter(rollpoint_array, frame)
+def gutter(rollpoint_array, frame)
       if rollpoint_array[frame] == 0
         print "Gutter!!!\n"
         #wait_key = gets.chomp
