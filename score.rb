@@ -84,7 +84,7 @@ class Score
       validate_roll_point(first_roll_points, 10, "first", 10)
 
       if first_roll_points[10] == 10
-        validate_roll_point(first_roll_points, 11, "second", 10)
+        validate_roll_point(first_roll_points, 11, "first", 10)
       else
         validate_roll_point(second_roll_points, 10, "second", 10 - first_roll_points[10])
       end
@@ -93,9 +93,7 @@ class Score
 
   def case_10frame_spare(first_roll_points, second_roll_points)
     if first_roll_points[9] + second_roll_points[9] == 10 and  first_roll_points[9] != 10
-      print "Input a number of last raoll point between 0 and 10.  \n"
-      first_roll_points[10] = gets.chomp.to_i
-      validate_low0_high10(first_roll_points, 10)
+      validate_roll_point(first_roll_points, 10, "last", 10)
     end
   end
 
