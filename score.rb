@@ -46,7 +46,6 @@ class Score
     @display_totalscore  = []
     @display_firstpoint  = [] #[2,0,3,10,6,4,3,7,0,6,10]
     @display_secondpoint = [] #[0,1,7,0,4,4,7,7,0,4,3]
-    @turn                = 0
     @totalscore          = 0
     # @firstpoint = [0,0,0,0,0,0,0,0,0,0,0]
     # @secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
@@ -105,8 +104,6 @@ class Score
   def input  #input score
 
     for i in 0..9
-      @turn = i + 1
-      
       first_roll(@firstpoint, i)
 
       gutter(@firstpoint, i)
