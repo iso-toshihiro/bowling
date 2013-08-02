@@ -41,14 +41,14 @@ class Score
   attr_accessor :display_secondpoint
 
   def initialize
-    @firstpoint          = []
-    @secondpoint         = []
-    @display_totalscore  = []
-    @display_firstpoint  = [] #[2,0,3,10,6,4,3,7,0,6,10]
-    @display_secondpoint = [] #[0,1,7,0,4,4,7,7,0,4,3]
-    @totalscore          = 0
-    # @firstpoint = [0,0,0,0,0,0,0,0,0,0,0]
-    # @secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
+    @down_pins_first_roll  = []
+    @down_pins_second_roll = []
+    @display_totalscore    = []
+    @display_firstpoint    = [] #[2,0,3,10,6,4,3,7,0,6,10]
+    @display_secondpoint   = [] #[0,1,7,0,4,4,7,7,0,4,3]
+    @totalscore            = 0
+    # @down_pins_first_roll = [0,0,0,0,0,0,0,0,0,0,0]
+    # @down_pins_second_roll = [0,0,0,0,0,0,0,0,0,0,0]
   end
 
   def validate_roll_point(roll_points, frame, first_or_second, max_point)
@@ -107,16 +107,16 @@ class Score
   def input  #input score
 
     for i in 0..9
-      validate_roll_point(@firstpoint, i, "first", 10)
+      validate_roll_point(@down_pins_first_roll, i, "first", 10)
 
-      gutter(@firstpoint, i)
-      strike(@firstpoint, i)
-      validate_low0_high10( @firstpoint, i )
+      gutter(@down_pins_first_roll, i)
+      strike(@down_pins_first_roll, i)
+      validate_low0_high10( @down_pins_first_roll, i )
 
-      if @firstpoint[i] == 10
-        @secondpoint[i] = 0
+      if @down_pins_first_roll[i] == 10
+        @down_pins_second_roll[i] = 0
       else
-        self.second_roll(@firstpoint, @secondpoint, i)
+        self.second_roll(@down_pins_first_roll, @down_pins_second_roll, i)
       end
       self.calcuration(i)
       self.display2(i)
@@ -124,25 +124,25 @@ class Score
       
     end #for_end
 
-    self.case_10frame_strike(@firstpoint, @secondpoint)
-    self.case_10frame_spare(@firstpoint, @secondpoint)
+    self.case_10frame_strike(@down_pins_first_roll, @down_pins_second_roll)
+    self.case_10frame_spare(@down_pins_first_roll, @down_pins_second_roll)
   end
 
   def cal_case_strike(frame)
-    if  @firstpoint[frame] == 10
+    if  @down_pins_first_roll[frame] == 10
       @display_firstpoint[frame] = "X"
       @display_secondpoint[frame] = " "
-      if  @firstpoint[frame+1] == nil
+      if  @down_pins_first_roll[frame+1] == nil
         @display_totalscore[frame] = " "
         
-      elsif @firstpoint[frame+1] == 10 and @firstpoint[frame+2] == nil
+      elsif @down_pins_first_roll[frame+1] == 10 and @down_pins_first_roll[frame+2] == nil
         @display_totalscore[frame] = " "
-      elsif  @firstpoint[frame+1] == 10 and @firstpoint[frame+2] != nil
-        @display_totalscore[frame] = @totalscore + 20 + @firstpoint[frame+2]
-        @totalscore += 20 + @firstpoint[frame+2]
+      elsif  @down_pins_first_roll[frame+1] == 10 and @down_pins_first_roll[frame+2] != nil
+        @display_totalscore[frame] = @totalscore + 20 + @down_pins_first_roll[frame+2]
+        @totalscore += 20 + @down_pins_first_roll[frame+2]
       else
-        @display_totalscore[frame] = @totalscore + 10 + @firstpoint[frame+1] + @secondpoint[frame+1]
-        @totalscore += 10 + @firstpoint[frame+1] + @secondpoint[frame+1]
+        @display_totalscore[frame] = @totalscore + 10 + @down_pins_first_roll[frame+1] + @down_pins_second_roll[frame+1]
+        @totalscore += 10 + @down_pins_first_roll[frame+1] + @down_pins_second_roll[frame+1]
       end
     else
       return false
@@ -150,31 +150,31 @@ class Score
   end
 
   def cal_case_spare(frame)
-    if  @firstpoint[frame] + @secondpoint[frame] == 10  and @firstpoint[frame] != 10
-      @display_firstpoint[frame] = @firstpoint[frame]
+    if  @down_pins_first_roll[frame] + @down_pins_second_roll[frame] == 10  and @down_pins_first_roll[frame] != 10
+      @display_firstpoint[frame] = @down_pins_first_roll[frame]
       @display_secondpoint[frame] = "/"
-      if  @firstpoint[frame+1] == nil
+      if  @down_pins_first_roll[frame+1] == nil
         @display_totalscore[frame] = " "
       else
-        @display_totalscore[frame] = @totalscore + 10 + @firstpoint[frame+1]
-        @totalscore += 10 + @firstpoint[frame+1]
+        @display_totalscore[frame] = @totalscore + 10 + @down_pins_first_roll[frame+1]
+        @totalscore += 10 + @down_pins_first_roll[frame+1]
       end
     else
       return false
     end
   end
   def cal_case_10frame_strike
-    if @firstpoint[9] == 10 
-      if @firstpoint[10] == 10
+    if @down_pins_first_roll[9] == 10 
+      if @down_pins_first_roll[10] == 10
         @display_firstpoint[10] = "X"
       else
-        @display_firstpoint[10] =  @firstpoint[10]
-        @display_secondpoint[10] =  @secondpoint[10]
+        @display_firstpoint[10] =  @down_pins_first_roll[10]
+        @display_secondpoint[10] =  @down_pins_second_roll[10]
       end
-      if @firstpoint[11] == 10
+      if @down_pins_first_roll[11] == 10
         @display_firstpoint[11] = "X"
       else
-        @display_firstpoint[11] =  @firstpoint[11]
+        @display_firstpoint[11] =  @down_pins_first_roll[11]
       end
     else
       return false
@@ -182,11 +182,11 @@ class Score
   end
   
   def cal_case_10frame_spare
-    if  @firstpoint[9] + @secondpoint[9] == 10 and  @firstpoint[9] != 10
-      if  @firstpoint[10] == 10
+    if  @down_pins_first_roll[9] + @down_pins_second_roll[9] == 10 and  @down_pins_first_roll[9] != 10
+      if  @down_pins_first_roll[10] == 10
         @display_firstpoint[10] = "X"
       else
-        @display_firstpoint[10] =  @firstpoint[10]
+        @display_firstpoint[10] =  @down_pins_first_roll[10]
       end
     end
   end
@@ -207,10 +207,10 @@ class Score
 
       if cal_case_strike(i) == false and cal_case_spare(i) == false
         print i,"  ", @totalscore," OK\n"
-        @display_firstpoint[i] = @firstpoint[i]
-        @display_secondpoint[i] =  @secondpoint[i]
-        @display_totalscore[i] = @totalscore + @firstpoint[i] + @secondpoint[i]
-        @totalscore += @firstpoint[i] + @secondpoint[i]
+        @display_firstpoint[i] = @down_pins_first_roll[i]
+        @display_secondpoint[i] =  @down_pins_second_roll[i]
+        @display_totalscore[i] = @totalscore + @down_pins_first_roll[i] + @down_pins_second_roll[i]
+        @totalscore += @down_pins_first_roll[i] + @down_pins_second_roll[i]
       end
     end #for end
   end
@@ -219,11 +219,11 @@ class Score
     for i in 0..frame
       
       if i == 9 
-        if @firstpoint[9] == 10 and @firstpoint[10] == 10
+        if @down_pins_first_roll[9] == 10 and @down_pins_first_roll[10] == 10
           print "   ", @display_firstpoint[i], "  ", @display_firstpoint[i + 1], " ", @display_firstpoint[i + 2], "|"
-        elsif  @firstpoint[9] == 10
+        elsif  @down_pins_first_roll[9] == 10
           print "   ", @display_firstpoint[i], "  ", @display_firstpoint[i + 1], " ", @display_secondpoint[i + 1], "|"
-        elsif @firstpoint[9] +  @secondpoint[9] == 10
+        elsif @down_pins_first_roll[9] +  @down_pins_second_roll[9] == 10
           print "   ", @display_firstpoint[i], "  ", @display_secondpoint[i], " ", @display_firstpoint[i + 1], "|"
         else
           print "   ", @display_firstpoint[i], " ", @display_secondpoint[i], "|"
@@ -239,7 +239,7 @@ class Score
       
       
       if i == 9 
-        if  @firstpoint[9] +  @secondpoint[9] == 10
+        if  @down_pins_first_roll[9] + @down_pins_second_roll[9] == 10
           if  @display_totalscore[9] == " "
             print "    ", "%3s" % @display_totalscore[i], "|"
           else
