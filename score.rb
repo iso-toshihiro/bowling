@@ -51,13 +51,13 @@ class Score
     # @secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
   end
 
- def first_roll(first_roll_points, frame)
-    first_roll_points[frame] = 100
-    until  first_roll_points[frame] >= 0 and  first_roll_points[frame] <= 10 do
-      print "Input a number of first point of ", frame+1, " frame between 0 and 10.  \n"
+  def validate_roll_point(roll_points, frame, first_or_second, max_point)
+    roll_points[frame] = 100
+    until  roll_points[frame] >= 0 and  roll_points[frame] <= max_point do
+      print "Input a number of ", first_or_second, " point of ", frame+1, " frame between 0 and ", max_point, ".  \n"
       tmp_value = gets.chomp
-      if /^\d+$/ =~ tmp_value and tmp_value.to_i <= 10
-        first_roll_points[frame] = tmp_value.to_i
+      if /^\d+$/ =~ tmp_value and tmp_value.to_i <= max_point
+        roll_points[frame] = tmp_value.to_i
       else
        puts 'Error!! Input a positive integer.'
       end
@@ -67,8 +67,8 @@ class Score
   def second_roll(first_roll_points, second_roll_points, frame)
     print "Input a number of second point of ", frame+1, " frame between 0 and ", 10 - first_roll_points[frame],".  \n"
     
-    second_roll_points[frame] = gets.chomp.to_i
-
+    #second_roll_points[frame] = gets.chomp.to_i
+    validate_roll_point(second_roll_points, frame, "second", 10 - first_roll_points[frame])
     gutter(second_roll_points, frame)
     
     spare(first_roll_points, second_roll_points, frame)
@@ -109,7 +109,7 @@ class Score
   def input  #input score
 
     for i in 0..9
-      first_roll(@firstpoint, i)
+      validate_roll_point(@firstpoint, i, "first", 10)
 
       gutter(@firstpoint, i)
       strike(@firstpoint, i)
