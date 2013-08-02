@@ -41,13 +41,13 @@ class Score
   attr_accessor :display_secondpoint
 
   def initialize
-    @firstpoint = Array.new(12)
-    @secondpoint = Array.new(11)
-    @display_totalscore = Array.new(10)
-    @display_firstpoint = Array.new(11) #[2,0,3,10,6,4,3,7,0,6,10]
+    @firstpoint          = Array.new(12)
+    @secondpoint         = Array.new(11)
+    @display_totalscore  = Array.new(10)
+    @display_firstpoint  = Array.new(11) #[2,0,3,10,6,4,3,7,0,6,10]
     @display_secondpoint = Array.new(11)#[0,1,7,0,4,4,7,7,0,4,3]
-    @turn = 0
-    @totalscore = 0
+    @turn                = 0
+    @totalscore          = 0
     # @firstpoint = [0,0,0,0,0,0,0,0,0,0,0]
     # @secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
   end
