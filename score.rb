@@ -51,13 +51,18 @@ class Score
     # @secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
   end
 
-  def first_roll(first_roll_points, frame)
-    print "Input a number of first point of ", frame+1, " frame between 0 and 10.  \n"
-    first_roll_points[frame] = gets.chomp.to_i
-
+ def first_roll(first_roll_points, frame)
+    first_roll_points[frame] = 100
+    until  first_roll_points[frame] >= 0 and  first_roll_points[frame] <= 10 do
+      print "Input a number of first point of ", frame+1, " frame between 0 and 10.  \n"
+      tmp_value = gets.chomp
+      if /^\d+$/ =~ tmp_value and tmp_value.to_i <= 10
+        first_roll_points[frame] = tmp_value.to_i
+      else
+       puts 'Error!! Input a positive integer.'
+      end
+    end
   end
-  
-  
 
   def second_roll(first_roll_points, second_roll_points, frame)
     print "Input a number of second point of ", frame+1, " frame between 0 and ", 10 - first_roll_points[frame],".  \n"
