@@ -43,10 +43,10 @@ class Score
   def initialize
     @down_pins_first_roll  = []
     @down_pins_second_roll = []
-    @totalscores    = []
+    @totalscores           = []
     @display_firstpoint    = [] #[2,0,3,10,6,4,3,7,0,6,10]
     @display_secondpoint   = [] #[0,1,7,0,4,4,7,7,0,4,3]
-    @totalscore            = 0
+    @temp_score            = 0
     # @down_pins_first_roll = [0,0,0,0,0,0,0,0,0,0,0]
     # @down_pins_second_roll = [0,0,0,0,0,0,0,0,0,0,0]
   end
@@ -138,11 +138,11 @@ class Score
       elsif @down_pins_first_roll[frame+1] == 10 and @down_pins_first_roll[frame+2] == nil
         @totalscores[frame] = " "
       elsif  @down_pins_first_roll[frame+1] == 10 and @down_pins_first_roll[frame+2] != nil
-        @totalscores[frame] = @totalscore + 20 + @down_pins_first_roll[frame+2]
-        @totalscore += 20 + @down_pins_first_roll[frame+2]
+        @totalscores[frame] = @temp_score + 20 + @down_pins_first_roll[frame+2]
+        @temp_score += 20 + @down_pins_first_roll[frame+2]
       else
-        @totalscores[frame] = @totalscore + 10 + @down_pins_first_roll[frame+1] + @down_pins_second_roll[frame+1]
-        @totalscore += 10 + @down_pins_first_roll[frame+1] + @down_pins_second_roll[frame+1]
+        @totalscores[frame] = @temp_score + 10 + @down_pins_first_roll[frame+1] + @down_pins_second_roll[frame+1]
+        @temp_score += 10 + @down_pins_first_roll[frame+1] + @down_pins_second_roll[frame+1]
       end
     else
       return false
@@ -156,8 +156,8 @@ class Score
       if  @down_pins_first_roll[frame+1] == nil
         @totalscores[frame] = " "
       else
-        @totalscores[frame] = @totalscore + 10 + @down_pins_first_roll[frame+1]
-        @totalscore += 10 + @down_pins_first_roll[frame+1]
+        @totalscores[frame] = @temp_score + 10 + @down_pins_first_roll[frame+1]
+        @temp_score += 10 + @down_pins_first_roll[frame+1]
       end
     else
       return false
@@ -196,7 +196,7 @@ class Score
     #@display_firstpoint = [2,0,3,10,6,4,3,7,0,6,10]
     #@display_secondpoint = [0,1,7,0,4,4,7,7,0,4,3]
     #@totalscores = [3,1,7,0,4,4,7,7,0,4,3]
-    @totalscore = 0
+    @temp_score = 0
     
     if frame == 9  
       cal_case_10frame_strike
@@ -206,11 +206,11 @@ class Score
     for i in 0..frame
 
       if cal_case_strike(i) == false and cal_case_spare(i) == false
-        print i,"  ", @totalscore," OK\n"
+        print i,"  ", @temp_score," OK\n"
         @display_firstpoint[i] = @down_pins_first_roll[i]
         @display_secondpoint[i] =  @down_pins_second_roll[i]
-        @totalscores[i] = @totalscore + @down_pins_first_roll[i] + @down_pins_second_roll[i]
-        @totalscore += @down_pins_first_roll[i] + @down_pins_second_roll[i]
+        @totalscores[i] = @temp_score + @down_pins_first_roll[i] + @down_pins_second_roll[i]
+        @temp_score += @down_pins_first_roll[i] + @down_pins_second_roll[i]
       end
     end #for end
   end
