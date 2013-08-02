@@ -36,14 +36,14 @@ class Score
 
   attr_accessor :down_pins_first_roll 
   attr_accessor :down_pins_second_roll
-  attr_accessor :display_totalscore
+  attr_accessor :totalscores
   attr_accessor :display_firstpoint
   attr_accessor :display_secondpoint
 
   def initialize
     @down_pins_first_roll  = []
     @down_pins_second_roll = []
-    @display_totalscore    = []
+    @totalscores    = []
     @display_firstpoint    = [] #[2,0,3,10,6,4,3,7,0,6,10]
     @display_secondpoint   = [] #[0,1,7,0,4,4,7,7,0,4,3]
     @totalscore            = 0
@@ -133,15 +133,15 @@ class Score
       @display_firstpoint[frame] = "X"
       @display_secondpoint[frame] = " "
       if  @down_pins_first_roll[frame+1] == nil
-        @display_totalscore[frame] = " "
+        @totalscores[frame] = " "
         
       elsif @down_pins_first_roll[frame+1] == 10 and @down_pins_first_roll[frame+2] == nil
-        @display_totalscore[frame] = " "
+        @totalscores[frame] = " "
       elsif  @down_pins_first_roll[frame+1] == 10 and @down_pins_first_roll[frame+2] != nil
-        @display_totalscore[frame] = @totalscore + 20 + @down_pins_first_roll[frame+2]
+        @totalscores[frame] = @totalscore + 20 + @down_pins_first_roll[frame+2]
         @totalscore += 20 + @down_pins_first_roll[frame+2]
       else
-        @display_totalscore[frame] = @totalscore + 10 + @down_pins_first_roll[frame+1] + @down_pins_second_roll[frame+1]
+        @totalscores[frame] = @totalscore + 10 + @down_pins_first_roll[frame+1] + @down_pins_second_roll[frame+1]
         @totalscore += 10 + @down_pins_first_roll[frame+1] + @down_pins_second_roll[frame+1]
       end
     else
@@ -154,9 +154,9 @@ class Score
       @display_firstpoint[frame] = @down_pins_first_roll[frame]
       @display_secondpoint[frame] = "/"
       if  @down_pins_first_roll[frame+1] == nil
-        @display_totalscore[frame] = " "
+        @totalscores[frame] = " "
       else
-        @display_totalscore[frame] = @totalscore + 10 + @down_pins_first_roll[frame+1]
+        @totalscores[frame] = @totalscore + 10 + @down_pins_first_roll[frame+1]
         @totalscore += 10 + @down_pins_first_roll[frame+1]
       end
     else
@@ -195,7 +195,7 @@ class Score
     
     #@display_firstpoint = [2,0,3,10,6,4,3,7,0,6,10]
     #@display_secondpoint = [0,1,7,0,4,4,7,7,0,4,3]
-    #@display_totalscore = [3,1,7,0,4,4,7,7,0,4,3]
+    #@totalscores = [3,1,7,0,4,4,7,7,0,4,3]
     @totalscore = 0
     
     if frame == 9  
@@ -209,7 +209,7 @@ class Score
         print i,"  ", @totalscore," OK\n"
         @display_firstpoint[i] = @down_pins_first_roll[i]
         @display_secondpoint[i] =  @down_pins_second_roll[i]
-        @display_totalscore[i] = @totalscore + @down_pins_first_roll[i] + @down_pins_second_roll[i]
+        @totalscores[i] = @totalscore + @down_pins_first_roll[i] + @down_pins_second_roll[i]
         @totalscore += @down_pins_first_roll[i] + @down_pins_second_roll[i]
       end
     end #for end
@@ -240,19 +240,19 @@ class Score
       
       if i == 9 
         if  @down_pins_first_roll[9] + @down_pins_second_roll[9] == 10
-          if  @display_totalscore[9] == " "
-            print "    ", "%3s" % @display_totalscore[i], "|"
+          if  @totalscores[9] == " "
+            print "    ", "%3s" % @totalscores[i], "|"
           else
-            print "      ", "%3d" % @display_totalscore[i], "|"
+            print "      ", "%3d" % @totalscores[i], "|"
           end
         else
-          print "   ", "%3d" % @display_totalscore[i], "|"
+          print "   ", "%3d" % @totalscores[i], "|"
         end
       else
-        if  @display_totalscore[i] == " "
-          print "   ", "%3s" % @display_totalscore[i], "|"
+        if  @totalscores[i] == " "
+          print "   ", "%3s" % @totalscores[i], "|"
         else
-          print "   ", "%3d" % @display_totalscore[i], "|"
+          print "   ", "%3d" % @totalscores[i], "|"
         end
       end
     end #for end
@@ -274,5 +274,5 @@ bob.input
 #bob.firstpoint = [10,10,10,10,10,10,10,10,10,10,10,10,10]
 #bob.secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
 bob.calcuration(9)
-#print bob.display_totalscore[9]
+#print bob.totalscores[9]
 bob.display2(9)
