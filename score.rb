@@ -34,8 +34,8 @@ end
 class Score
 
 
-  attr_accessor :firstpoint
-  attr_accessor :secondpoint
+  attr_accessor :down_pins_first_roll 
+  attr_accessor :down_pins_second_roll
   attr_accessor :display_totalscore
   attr_accessor :display_firstpoint
   attr_accessor :display_secondpoint
