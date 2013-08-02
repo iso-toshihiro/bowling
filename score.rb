@@ -65,9 +65,7 @@ class Score
   end
 
   def second_roll(first_roll_points, second_roll_points, frame)
-    print "Input a number of second point of ", frame+1, " frame between 0 and ", 10 - first_roll_points[frame],".  \n"
     
-    #second_roll_points[frame] = gets.chomp.to_i
     validate_roll_point(second_roll_points, frame, "second", 10 - first_roll_points[frame])
     gutter(second_roll_points, frame)
     
@@ -160,7 +158,6 @@ class Score
       else
         @display_totalscore[frame] = @totalscore + 10 + @firstpoint[frame+1]
         @totalscore += 10 + @firstpoint[frame+1]
-        print frame,"  ", @totalscore," spare,OK\n"
       end
     else
       return false
