@@ -221,11 +221,11 @@ class Score
       
       if i == 9 
         if @firstpoint[9] == 10 and @firstpoint[10] == 10
-          print "   ", @display_firstpoint[i], "  ", @display_firstpoint[i+1], " ", @display_firstpoint[i+2], "|"
+          print "   ", @display_firstpoint[i], "  ", @display_firstpoint[i + 1], " ", @display_firstpoint[i + 2], "|"
         elsif  @firstpoint[9] == 10
-          print "   ", @display_firstpoint[i], "  ", @display_firstpoint[i+1], " ", @display_secondpoint[i+1], "|"
+          print "   ", @display_firstpoint[i], "  ", @display_firstpoint[i + 1], " ", @display_secondpoint[i + 1], "|"
         elsif @firstpoint[9] +  @secondpoint[9] == 10
-          print "   ", @display_firstpoint[i], "  ", @display_secondpoint[i], " ", @display_firstpoint[i+1], "|"
+          print "   ", @display_firstpoint[i], "  ", @display_secondpoint[i], " ", @display_firstpoint[i + 1], "|"
         else
           print "   ", @display_firstpoint[i], " ", @display_secondpoint[i], "|"
         end
