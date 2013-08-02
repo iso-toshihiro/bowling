@@ -1,34 +1,34 @@
-def validate_low0_high10(rollpoints, frame)
-     if rollpoints[frame] < 0 or rollpoints[frame] > 10
-       print "Error!!! A number should be inputed between 0 and 10. point is 0.\n"
-       rollpoints[frame] = 0
-       wait_key = gets.chomp
-     end
+def validate_low0_high10(roll_points, frame)
+  if roll_points[frame] < 0 or roll_points[frame] > 10
+    print "Error!!! A number should be inputed between 0 and 10. point is 0.\n"
+    roll_points[frame] = 0
+    wait_key = gets.chomp
+  end
 end
 
-def gutter(rollpoints, frame)
-      if rollpoints[frame] == 0
-        print "Gutter!!!\n"
-        #wait_key = gets.chomp
-      end
+def gutter(roll_points, frame)
+  if roll_points[frame] == 0
+    print "Gutter!!!\n"
+    #wait_key = gets.chomp
+  end
 end
 
-def strike(rollpoints, frame)
-      if rollpoints[frame] == 10 and rollpoints[frame-1] == 10
-          print "Double!!!!!!\n"
-          wait_key = gets.chomp
-      elsif rollpoints[frame] == 10
-          print "Strike!!!!\n"
-          wait_key = gets.chomp
-      else
-      end
+def strike(roll_points, frame)
+  if roll_points[frame] == 10 and roll_points[frame-1] == 10
+    print "Double!!!!!!\n"
+    wait_key = gets.chomp
+  elsif roll_points[frame] == 10
+    print "Strike!!!!\n"
+    wait_key = gets.chomp
+  else
+  end
 end
 
-def spare(first_rollpoints, second_rollpoints, frame)
-    if second_rollpoints[frame] + first_rollpoints[frame] == 10 and first_rollpoints[frame] != 10
-      print "spare!!!!\n"
-      wait_key = gets.chomp
-    end
+def spare(first_roll_points, second_roll_points, frame)
+  if second_roll_points[frame] + first_roll_points[frame] == 10 and first_roll_points[frame] != 10
+    print "spare!!!!\n"
+    wait_key = gets.chomp
+  end
 end
 
 class Score
@@ -45,58 +45,60 @@ class Score
     @secondpoint = Array.new(11)
     @display_totalscore = Array.new(10)
     @display_firstpoint = Array.new(11) #[2,0,3,10,6,4,3,7,0,6,10]
-    @display_secondpoint =  Array.new(11)#[0,1,7,0,4,4,7,7,0,4,3]
+    @display_secondpoint = Array.new(11)#[0,1,7,0,4,4,7,7,0,4,3]
     @turn = 0
     @totalscore = 0
-   # @firstpoint = [0,0,0,0,0,0,0,0,0,0,0]
-   # @secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
+    # @firstpoint = [0,0,0,0,0,0,0,0,0,0,0]
+    # @secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
   end
 
-  def first_roll(first_rollpoints, frame)
-      print "Input a number of first point of ", frame+1, " frame between 0 and 10.  \n"
-      first_rollpoints[frame] = gets.chomp.to_i  
+  def first_roll(first_roll_points, frame)
+    print "Input a number of first point of ", frame+1, " frame between 0 and 10.  \n"
+    first_roll_points[frame] = gets.chomp.to_i
+
   end
+  
+  
 
-
-  def second_roll(first_rollpoints, second_rollpoints, frame)
-    print "Input a number of second point of ", frame+1, " frame between 0 and ", 10 - first_rollpoints[frame],".  \n"
+  def second_roll(first_roll_points, second_roll_points, frame)
+    print "Input a number of second point of ", frame+1, " frame between 0 and ", 10 - first_roll_points[frame],".  \n"
     
-    second_rollpoints[frame] = gets.chomp.to_i
+    second_roll_points[frame] = gets.chomp.to_i
 
-    gutter(second_rollpoints, frame)
+    gutter(second_roll_points, frame)
     
-    spare(first_rollpoints, second_rollpoints, frame)
+    spare(first_roll_points, second_roll_points, frame)
 
-    if second_rollpoints[frame] + first_rollpoints[frame] > 10 
+    if second_roll_points[frame] + first_roll_points[frame] > 10 
       print "Error!!! over 10 points. input 0.\n"
-      second_rollpoints[frame] = 0
+      second_roll_points[frame] = 0
       wait_key = gets.chomp
     end
-    validate_low0_high10( second_rollpoints, frame )
+    validate_low0_high10( second_roll_points, frame )
   end
 
-  def case_10frame_strike(first_rollpoints, second_rollpoints)
-    if first_rollpoints[9] == 10
+  def case_10frame_strike(first_roll_points, second_roll_points)
+    if first_roll_points[9] == 10
       print "Input a number of first roll point of last frame between 0 and 10.  \n"
-      first_rollpoints[10] = gets.chomp.to_i
-      validate_low0_high10( first_rollpoints, 10 )
-      if first_rollpoints[10] == 10
+      first_roll_points[10] = gets.chomp.to_i
+      validate_low0_high10( first_roll_points, 10 )
+      if first_roll_points[10] == 10
         print "Input a number of second roll point of last frame between 0 and 10.  \n"
-        first_rollpoints[11] = gets.chomp.to_i
-        validate_low0_high10( first_rollpoints, 11 )
+        first_roll_points[11] = gets.chomp.to_i
+        validate_low0_high10( first_roll_points, 11 )
       else
         print "Input a number of second roll point of last frame between 0 and 10.  \n"
-        second_rollpoints[10] = gets.chomp.to_i
-        validate_low0_high10(second_rollpoints, 10)
+        second_roll_points[10] = gets.chomp.to_i
+        validate_low0_high10(second_roll_points, 10)
       end
     end
   end
 
-  def case_10frame_spare(first_rollpoints, second_rollpoints)
-    if first_rollpoints[9] + second_rollpoints[9] == 10 and  first_rollpoints[9] != 10
+  def case_10frame_spare(first_roll_points, second_roll_points)
+    if first_roll_points[9] + second_roll_points[9] == 10 and  first_roll_points[9] != 10
       print "Input a number of last raoll point between 0 and 10.  \n"
-      first_rollpoints[10] = gets.chomp.to_i
-      validate_low0_high10(first_rollpoints, 10)
+      first_roll_points[10] = gets.chomp.to_i
+      validate_low0_high10(first_roll_points, 10)
     end
   end
 
@@ -104,7 +106,7 @@ class Score
 
     for i in 0..9
       @turn = i + 1
- 
+      
       first_roll(@firstpoint, i)
 
       gutter(@firstpoint, i)
@@ -148,19 +150,19 @@ class Score
   end
 
   def cal_case_spare(frame)
-     if  @firstpoint[frame] + @secondpoint[frame] == 10  and @firstpoint[frame] != 10
-        @display_firstpoint[frame] = @firstpoint[frame]
-        @display_secondpoint[frame] = "/"
-        if  @firstpoint[frame+1] == nil
-          @display_totalscore[frame] = " "
-        else
-          @display_totalscore[frame] = @totalscore + 10 + @firstpoint[frame+1]
-          @totalscore += 10 + @firstpoint[frame+1]
-          print frame,"  ", @totalscore," spare,OK\n"
-        end
-     else
-       return false
-     end
+    if  @firstpoint[frame] + @secondpoint[frame] == 10  and @firstpoint[frame] != 10
+      @display_firstpoint[frame] = @firstpoint[frame]
+      @display_secondpoint[frame] = "/"
+      if  @firstpoint[frame+1] == nil
+        @display_totalscore[frame] = " "
+      else
+        @display_totalscore[frame] = @totalscore + 10 + @firstpoint[frame+1]
+        @totalscore += 10 + @firstpoint[frame+1]
+        print frame,"  ", @totalscore," spare,OK\n"
+      end
+    else
+      return false
+    end
   end
   def cal_case_10frame_strike
     if @firstpoint[9] == 10 
@@ -235,7 +237,7 @@ class Score
 
     
     for i in 0..frame
-  
+      
       
       if i == 9 
         if  @firstpoint[9] +  @secondpoint[9] == 10
@@ -265,6 +267,10 @@ end # class end
 
 bob = Score.new
 
+ary = [3,3.3,"ff"]
+p ary[0].class
+p ary[1].class
+p ary[2].class
 bob.input
 #bob.firstpoint = [10,10,10,10,10,10,10,10,10,10,10,10,10]
 #bob.secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
