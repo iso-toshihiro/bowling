@@ -37,14 +37,14 @@ class Score
   attr_accessor :down_pins_first_roll 
   attr_accessor :down_pins_second_roll
   attr_accessor :totalscores
-  attr_accessor :display_firstpoint
+  attr_accessor :first_points
   attr_accessor :display_secondpoint
 
   def initialize
     @down_pins_first_roll  = []
     @down_pins_second_roll = []
     @totalscores           = []
-    @display_firstpoint    = [] #[2,0,3,10,6,4,3,7,0,6,10]
+    @first_points          = [] #[2,0,3,10,6,4,3,7,0,6,10]
     @display_secondpoint   = [] #[0,1,7,0,4,4,7,7,0,4,3]
     @temp_score            = 0
     # @down_pins_first_roll = [0,0,0,0,0,0,0,0,0,0,0]
@@ -130,7 +130,7 @@ class Score
 
   def cal_case_strike(frame)
     if  @down_pins_first_roll[frame] == 10
-      @display_firstpoint[frame] = "X"
+      @first_points[frame] = "X"
       @display_secondpoint[frame] = " "
       if  @down_pins_first_roll[frame+1] == nil
         @totalscores[frame] = " "
@@ -151,7 +151,7 @@ class Score
 
   def cal_case_spare(frame)
     if  @down_pins_first_roll[frame] + @down_pins_second_roll[frame] == 10  and @down_pins_first_roll[frame] != 10
-      @display_firstpoint[frame] = @down_pins_first_roll[frame]
+      @first_points[frame] = @down_pins_first_roll[frame]
       @display_secondpoint[frame] = "/"
       if  @down_pins_first_roll[frame+1] == nil
         @totalscores[frame] = " "
@@ -166,15 +166,15 @@ class Score
   def cal_case_10frame_strike
     if @down_pins_first_roll[9] == 10 
       if @down_pins_first_roll[10] == 10
-        @display_firstpoint[10] = "X"
+        @first_points[10] = "X"
       else
-        @display_firstpoint[10] =  @down_pins_first_roll[10]
+        @first_points[10] =  @down_pins_first_roll[10]
         @display_secondpoint[10] =  @down_pins_second_roll[10]
       end
       if @down_pins_first_roll[11] == 10
-        @display_firstpoint[11] = "X"
+        @first_points[11] = "X"
       else
-        @display_firstpoint[11] =  @down_pins_first_roll[11]
+        @first_points[11] =  @down_pins_first_roll[11]
       end
     else
       return false
@@ -184,16 +184,16 @@ class Score
   def cal_case_10frame_spare
     if  @down_pins_first_roll[9] + @down_pins_second_roll[9] == 10 and  @down_pins_first_roll[9] != 10
       if  @down_pins_first_roll[10] == 10
-        @display_firstpoint[10] = "X"
+        @first_points[10] = "X"
       else
-        @display_firstpoint[10] =  @down_pins_first_roll[10]
+        @first_points[10] =  @down_pins_first_roll[10]
       end
     end
   end
 
   def calcuration(frame)
     
-    #@display_firstpoint = [2,0,3,10,6,4,3,7,0,6,10]
+    #@first_points = [2,0,3,10,6,4,3,7,0,6,10]
     #@display_secondpoint = [0,1,7,0,4,4,7,7,0,4,3]
     #@totalscores = [3,1,7,0,4,4,7,7,0,4,3]
     @temp_score = 0
@@ -207,7 +207,7 @@ class Score
 
       if cal_case_strike(i) == false and cal_case_spare(i) == false
         print i,"  ", @temp_score," OK\n"
-        @display_firstpoint[i] = @down_pins_first_roll[i]
+        @first_points[i] = @down_pins_first_roll[i]
         @display_secondpoint[i] =  @down_pins_second_roll[i]
         @totalscores[i] = @temp_score + @down_pins_first_roll[i] + @down_pins_second_roll[i]
         @temp_score += @down_pins_first_roll[i] + @down_pins_second_roll[i]
@@ -220,16 +220,16 @@ class Score
       
       if i == 9 
         if @down_pins_first_roll[9] == 10 and @down_pins_first_roll[10] == 10
-          print "   ", @display_firstpoint[i], "  ", @display_firstpoint[i + 1], " ", @display_firstpoint[i + 2], "|"
+          print "   ", @first_points[i], "  ", @first_points[i + 1], " ", @first_points[i + 2], "|"
         elsif  @down_pins_first_roll[9] == 10
-          print "   ", @display_firstpoint[i], "  ", @display_firstpoint[i + 1], " ", @display_secondpoint[i + 1], "|"
+          print "   ", @first_points[i], "  ", @first_points[i + 1], " ", @display_secondpoint[i + 1], "|"
         elsif @down_pins_first_roll[9] +  @down_pins_second_roll[9] == 10
-          print "   ", @display_firstpoint[i], "  ", @display_secondpoint[i], " ", @display_firstpoint[i + 1], "|"
+          print "   ", @first_points[i], "  ", @display_secondpoint[i], " ", @first_points[i + 1], "|"
         else
-          print "   ", @display_firstpoint[i], " ", @display_secondpoint[i], "|"
+          print "   ", @first_points[i], " ", @display_secondpoint[i], "|"
         end
       else
-        print "   ", @display_firstpoint[i], " ", @display_secondpoint[i], "|"
+        print "   ", @first_points[i], " ", @display_secondpoint[i], "|"
       end
     end
     print "\n"
