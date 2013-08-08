@@ -199,7 +199,6 @@ class Score
     for i in 0..frame
 
       if cal_case_strike(i) == false and cal_case_spare(i) == false
-        print i,"  ", @temp_score," OK\n"
         @first_points[i] = @down_pins_first_roll[i]
         @second_points[i] =  @down_pins_second_roll[i]
         @totalscores[i] = @temp_score + @down_pins_first_roll[i] + @down_pins_second_roll[i]
@@ -259,10 +258,6 @@ end # class end
 
 bob = Score.new
 
-ary = [3,3.3,"ff"]
-p ary[0].class
-p ary[1].class
-p ary[2].class
 bob.input
 #bob.firstpoint = [10,10,10,10,10,10,10,10,10,10,10,10,10]
 #bob.secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
