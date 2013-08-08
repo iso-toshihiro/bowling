@@ -25,10 +25,10 @@ describe Score do
       @taro.totalscores[9].should == 112
     end
 
-    it "taroの１フレーム目のスコアは6" do
+    it "taroの1フレーム目のスコアは6" do
       @taro.totalscores[0].should == 6
     end
-    it "taroの２フレーム目のスコアは11" do
+    it "taroの2フレーム目のスコアは11" do
       @taro.totalscores[1].should == 11
     end
     it "taroの3フレーム目のスコアは31" do
