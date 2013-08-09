@@ -1,10 +1,3 @@
-def validate_low0_high10(roll_points, frame)
-  if roll_points[frame] < 0 or roll_points[frame] > 10
-    print "Error!!! A number should be inputed between 0 and 10. point is 0.\n"
-    roll_points[frame] = 0
-    wait_key = gets.chomp
-  end
-end
 
 def gutter(roll_points, frame)
   if roll_points[frame] == 0
@@ -31,22 +24,14 @@ def spare(first_roll_points, second_roll_points, frame)
   end
 end
 
-class Score
-
+class Input
 
   attr_accessor :down_pins_first_roll 
   attr_accessor :down_pins_second_roll
-  attr_accessor :totalscores
-  attr_accessor :first_points
-  attr_accessor :second_points
 
   def initialize
     @down_pins_first_roll  = []
     @down_pins_second_roll = []
-    @totalscores           = []
-    @first_points          = [] #[2,0,3,10,6,4,3,7,0,6,10]
-    @second_points         = [] #[0,1,7,0,4,4,7,7,0,4,3]
-    @temp_score            = 0
     # @down_pins_first_roll = [0,0,0,0,0,0,0,0,0,0,0]
     # @down_pins_second_roll = [0,0,0,0,0,0,0,0,0,0,0]
   end
@@ -76,7 +61,7 @@ class Score
       second_roll_points[frame] = 0
       wait_key = gets.chomp
     end
-    validate_low0_high10( second_roll_points, frame )
+    ##validate_low0_high10( second_roll_points, frame )
   end
 
   def case_10frame_strike(first_roll_points, second_roll_points)
@@ -104,15 +89,15 @@ class Score
 
       gutter(@down_pins_first_roll, i)
       strike(@down_pins_first_roll, i)
-      validate_low0_high10( @down_pins_first_roll, i )
+      #validate_low0_high10( @down_pins_first_roll, i )
 
       if @down_pins_first_roll[i] == 10
         @down_pins_second_roll[i] = 0
       else
         self.second_roll(@down_pins_first_roll, @down_pins_second_roll, i)
       end
-      self.calcuration(i)
-      self.display2(i)
+      #self.calcuration(i)
+      #self.display2(i)
       #self.display(i)
       
     end #for_end
@@ -121,21 +106,39 @@ class Score
     self.case_10frame_spare(@down_pins_first_roll, @down_pins_second_roll)
   end
 
+end  #class Input end
+
+class Calcuration
+
+  attr_accessor :totalscores
+  attr_accessor :first_points
+  attr_accessor :second_points
+
+  def initialize(down_pins_first_roll, down_pins_second_roll)
+    @cal_down_pins_first_roll   = down_pins_first_roll
+    @cal_down_pins_second_roll = down_pins_second_roll
+    @totalscores                = []
+    @first_points               = [] #[2,0,3,10,6,4,3,7,0,6,10]
+    @second_points              = [] #[0,1,7,0,4,4,7,7,0,4,3]
+    @temp_score                 = 0
+  end
+
+
   def cal_case_strike(frame)
-    if  @down_pins_first_roll[frame] == 10
+    if  @cal_down_pins_first_roll[frame] == 10
       @first_points[frame] = "X"
       @second_points[frame] = " "
-      if  @down_pins_first_roll[frame+1] == nil
+      if  @cal_down_pins_first_roll[frame+1] == nil
         @totalscores[frame] = " "
         
-      elsif @down_pins_first_roll[frame+1] == 10 and @down_pins_first_roll[frame+2] == nil
+      elsif @cal_down_pins_first_roll[frame+1] == 10 and @cal_down_pins_first_roll[frame+2] == nil
         @totalscores[frame] = " "
-      elsif  @down_pins_first_roll[frame+1] == 10 and @down_pins_first_roll[frame+2] != nil
-        @totalscores[frame] = @temp_score + 20 + @down_pins_first_roll[frame+2]
-        @temp_score += 20 + @down_pins_first_roll[frame+2]
+      elsif  @cal_down_pins_first_roll[frame+1] == 10 and @cal_down_pins_first_roll[frame+2] != nil
+        @totalscores[frame] = @temp_score + 20 + @cal_down_pins_first_roll[frame+2]
+        @temp_score += 20 + @cal_down_pins_first_roll[frame+2]
       else
-        @totalscores[frame] = @temp_score + 10 + @down_pins_first_roll[frame+1] + @down_pins_second_roll[frame+1]
-        @temp_score += 10 + @down_pins_first_roll[frame+1] + @down_pins_second_roll[frame+1]
+        @totalscores[frame] = @temp_score + 10 + @cal_down_pins_first_roll[frame+1] + @cal_down_pins_second_roll[frame+1]
+        @temp_score += 10 + @cal_down_pins_first_roll[frame+1] + @cal_down_pins_second_roll[frame+1]
       end
     else
       return false
@@ -143,31 +146,31 @@ class Score
   end
 
   def cal_case_spare(frame)
-    if  @down_pins_first_roll[frame] + @down_pins_second_roll[frame] == 10  and @down_pins_first_roll[frame] != 10
-      @first_points[frame] = @down_pins_first_roll[frame]
+    if  @cal_down_pins_first_roll[frame] + @cal_down_pins_second_roll[frame] == 10  and @cal_down_pins_first_roll[frame] != 10
+      @first_points[frame] = @cal_down_pins_first_roll[frame]
       @second_points[frame] = "/"
-      if  @down_pins_first_roll[frame+1] == nil
+      if  @cal_down_pins_first_roll[frame+1] == nil
         @totalscores[frame] = " "
       else
-        @totalscores[frame] = @temp_score + 10 + @down_pins_first_roll[frame+1]
-        @temp_score += 10 + @down_pins_first_roll[frame+1]
+        @totalscores[frame] = @temp_score + 10 + @cal_down_pins_first_roll[frame+1]
+        @temp_score += 10 + @cal_down_pins_first_roll[frame+1]
       end
     else
       return false
     end
   end
   def cal_case_10frame_strike
-    if @down_pins_first_roll[9] == 10 
-      if @down_pins_first_roll[10] == 10
+    if @cal_down_pins_first_roll[9] == 10 
+      if @cal_down_pins_first_roll[10] == 10
         @first_points[10] = "X"
       else
-        @first_points[10] =  @down_pins_first_roll[10]
-        @second_points[10] =  @down_pins_second_roll[10]
+        @first_points[10] =  @cal_down_pins_first_roll[10]
+        @second_points[10] =  @cal_down_pins_second_roll[10]
       end
-      if @down_pins_first_roll[11] == 10
+      if @cal_down_pins_first_roll[11] == 10
         @first_points[11] = "X"
       else
-        @first_points[11] =  @down_pins_first_roll[11]
+        @first_points[11] =  @cal_down_pins_first_roll[11]
       end
     else
       return false
@@ -175,17 +178,18 @@ class Score
   end
   
   def cal_case_10frame_spare
-    if  @down_pins_first_roll[9] + @down_pins_second_roll[9] == 10 and  @down_pins_first_roll[9] != 10
-      if  @down_pins_first_roll[10] == 10
+    if  @cal_down_pins_first_roll[9] + @cal_down_pins_second_roll[9] == 10 and  @cal_down_pins_first_roll[9] != 10
+      if  @cal_down_pins_first_roll[10] == 10
         @first_points[10] = "X"
       else
-        @first_points[10] =  @down_pins_first_roll[10]
+        @first_points[10] =  @cal_down_pins_first_roll[10]
       end
     end
   end
 
   def calcuration(frame)
     
+
     #@first_points = [2,0,3,10,6,4,3,7,0,6,10]
     #@second_points = [0,1,7,0,4,4,7,7,0,4,3]
     #@totalscores = [3,1,7,0,4,4,7,7,0,4,3]
@@ -199,12 +203,25 @@ class Score
     for i in 0..frame
 
       if cal_case_strike(i) == false and cal_case_spare(i) == false
-        @first_points[i] = @down_pins_first_roll[i]
-        @second_points[i] =  @down_pins_second_roll[i]
-        @totalscores[i] = @temp_score + @down_pins_first_roll[i] + @down_pins_second_roll[i]
-        @temp_score += @down_pins_first_roll[i] + @down_pins_second_roll[i]
+        @first_points[i] = @cal_down_pins_first_roll[i]
+        @second_points[i] =  @cal_down_pins_second_roll[i]
+        @totalscores[i] = @temp_score + @cal_down_pins_first_roll[i] + @cal_down_pins_second_roll[i]
+        @temp_score += @cal_down_pins_first_roll[i] + @cal_down_pins_second_roll[i]
       end
     end #for end
+  end
+
+end #class Calcuration end
+
+
+class Display
+
+  def initialize(down_pins_first_roll, down_pins_second_roll, first_points, second_points, totalscores)
+    @down_pins_first_roll   = down_pins_first_roll
+    @down_pins_second_roll = down_pins_second_roll
+    @first_points  = first_points
+    @second_points = second_points
+    @totalscores   = totalscores
   end
 
   def display2(frame) 
@@ -256,11 +273,15 @@ class Score
 
 end # class end
 
-bob = Score.new
+input_ken = Input.new
 
-bob.input
-#bob.firstpoint = [10,10,10,10,10,10,10,10,10,10,10,10,10]
-#bob.secondpoint = [0,0,0,0,0,0,0,0,0,0,0]
-bob.calcuration(9)
-#print bob.totalscores[9]
-bob.display2(9)
+
+
+input_ken.input
+#input_ken.down_pins_first_roll = [10,10,10,10,10,10,10,10,10,3,3,3]
+#input_ken.down_pins_second_roll = [0,0,0,0,0,0,0,0,0,7,3]
+ken = Calcuration.new(input_ken.down_pins_first_roll, input_ken.down_pins_second_roll)
+ken.calcuration(9)
+#print ken.totalscores[9]
+ken = Display.new(input_ken.down_pins_first_roll, input_ken.down_pins_second_roll, ken.first_points, ken.second_points, ken.totalscores)
+ken.display2(9)
